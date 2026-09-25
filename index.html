@@ -1,13 +1,53 @@
-<html lang="en">
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <title>>Restaurant Delivery</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <title>Ritmo | Seguimiento de pedido</title>
 </head>
-
-<script src="scripts.js"></script>
 <body>
-    
+    <div class="page-shell">
+        <header class="topbar">
+            <a class="brand" href="#inicio" aria-label="Ritmo, inicio"><span class="brand-mark">r</span><span>ritmo</span></a>
+            <div class="service-status"><span class="status-dot"></span> Cocina abierta <span class="status-separator">•</span> Entrega media 25 min</div>
+            <button class="icon-button" type="button" aria-label="Ver perfil">JD</button>
+        </header>
+        <main id="inicio">
+            <section class="hero-copy">
+                <p class="eyebrow">Seguimiento en vivo <span></span></p>
+                <h1>Tu comida,<br><em>en camino.</em></h1>
+                <p class="intro">Sigue cada paso de tu pedido sin perderte nada. Aquí el tiempo también se saborea.</p>
+            </section>
+            <section class="dashboard" aria-label="Panel de pedido">
+                <div class="order-panel">
+                    <div class="panel-heading"><div><p class="label">Pedido de hoy</p><h2>#RM-4821</h2></div><span class="order-date">Ahora · 12:42</span></div>
+                    <div class="progress-track" aria-hidden="true"><span id="progressBar"></span></div>
+                    <div class="steps" id="steps">
+                        <div class="step active" data-step="0"><span class="step-icon">✓</span><strong>Recibido</strong><small>Tu pedido está con nosotros</small></div>
+                        <div class="step" data-step="1"><span class="step-icon">✦</span><strong>Preparando</strong><small>La cocina está en acción</small></div>
+                        <div class="step" data-step="2"><span class="step-icon">↗</span><strong>En camino</strong><small>Tu repartidor va hacia ti</small></div>
+                        <div class="step" data-step="3"><span class="step-icon">⌂</span><strong>Entregado</strong><small>Disfruta cada bocado</small></div>
+                    </div>
+                    <div class="live-status" id="liveStatus" aria-live="polite"><div class="pulse-ring"><span>✓</span></div><div><strong>Pedido recibido</strong><p>Estamos confirmando los detalles con la cocina.</p></div><div class="time-left"><strong id="countdown">05</strong><span>seg</span></div></div>
+                    <button class="primary-button" id="startButton" type="button"><span>▶</span> Iniciar simulación</button>
+                    <button class="secondary-button" id="resetButton" type="button" hidden>↻ Reiniciar pedido</button>
+                </div>
+                <aside class="summary-panel">
+                    <div class="summary-label"><span class="mini-dot"></span> Tu selección</div>
+                    <div class="food-item"><div class="food-emoji">🍔</div><div><strong>Hamburguesa Ritmo</strong><span>Doble carne · Cheddar</span></div><b>€ 12.50</b></div>
+                    <div class="food-item"><div class="food-emoji">🍟</div><div><strong>Patatas crujientes</strong><span>Con salsa de la casa</span></div><b>€ 4.50</b></div>
+                    <div class="food-item"><div class="food-emoji">🥤</div><div><strong>Limonada fresca</strong><span>Con hierbabuena</span></div><b>€ 3.00</b></div>
+                    <div class="summary-total"><span>Total pagado</span><strong>€ 20.00</strong></div>
+                    <div class="delivery-note"><span>⌖</span><div><strong>Entregar en</strong><p>Calle del Sol, 24 · 2º B</p></div></div>
+                </aside>
+            </section>
+        </main>
+        <footer><span>ritmo / cocina que llega a tiempo</span><span>Simulación de demostración</span></footer>
+    </div>
+    <script src="scripts.js"></script>
 </body>
 </html>
