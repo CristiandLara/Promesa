@@ -3,51 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f5f5f0">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-    <title>Ritmo | Seguimiento de pedido</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <title>Ritmo | Gestión del restaurante</title>
 </head>
 <body>
-    <div class="page-shell">
-        <header class="topbar">
-            <a class="brand" href="#inicio" aria-label="Ritmo, inicio"><span class="brand-mark">r</span><span>ritmo</span></a>
-            <div class="service-status"><span class="status-dot"></span> Cocina abierta <span class="status-separator">•</span> Entrega media 25 min</div>
-            <button class="icon-button" type="button" aria-label="Ver perfil">JD</button>
-        </header>
-        <main id="inicio">
-            <section class="hero-copy">
-                <p class="eyebrow">Seguimiento en vivo <span></span></p>
-                <h1>Tu comida,<br><em>en camino.</em></h1>
-                <p class="intro">Sigue cada paso de tu pedido sin perderte nada. Aquí el tiempo también se saborea.</p>
-            </section>
-            <section class="dashboard" aria-label="Panel de pedido">
-                <div class="order-panel">
-                    <div class="panel-heading"><div><p class="label">Pedido de hoy</p><h2>#RM-4821</h2></div><span class="order-date">Ahora · 12:42</span></div>
-                    <div class="progress-track" aria-hidden="true"><span id="progressBar"></span></div>
-                    <div class="steps" id="steps">
-                        <div class="step active" data-step="0"><span class="step-icon">✓</span><strong>Recibido</strong><small>Tu pedido está con nosotros</small></div>
-                        <div class="step" data-step="1"><span class="step-icon">✦</span><strong>Preparando</strong><small>La cocina está en acción</small></div>
-                        <div class="step" data-step="2"><span class="step-icon">↗</span><strong>En camino</strong><small>Tu repartidor va hacia ti</small></div>
-                        <div class="step" data-step="3"><span class="step-icon">⌂</span><strong>Entregado</strong><small>Disfruta cada bocado</small></div>
-                    </div>
-                    <div class="live-status" id="liveStatus" aria-live="polite"><div class="pulse-ring"><span>✓</span></div><div><strong>Pedido recibido</strong><p>Estamos confirmando los detalles con la cocina.</p></div><div class="time-left"><strong id="countdown">05</strong><span>seg</span></div></div>
-                    <button class="primary-button" id="startButton" type="button"><span>▶</span> Iniciar simulación</button>
-                    <button class="secondary-button" id="resetButton" type="button" hidden>↻ Reiniciar pedido</button>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <a class="brand" href="#resumen" aria-label="Ritmo, inicio"><span class="brand-mark">r</span><span>ritmo<span class="brand-period">.</span></span></a>
+            <p class="sidebar-caption">RESTAURANTE</p>
+            <nav class="main-nav" aria-label="Navegación principal">
+                <button class="nav-link active" data-view="resumen"><span>⌂</span> Resumen</button>
+                <button class="nav-link" data-view="categorias"><span>▦</span> Categorías</button>
+                <button class="nav-link" data-view="menu"><span>☷</span> Menú <span class="nav-count" id="menuNavCount">0</span></button>
+                <button class="nav-link" data-view="pedidos"><span>▤</span> Pedidos <span class="nav-count" id="orderNavCount">0</span></button>
+            </nav>
+            <div class="sidebar-bottom">
+                <div class="restaurant-card"><span class="restaurant-icon">✳</span><div><strong>Ritmo Cocina</strong><small><i></i> Abierto ahora</small></div><span class="more-dots">···</span></div>
+                <p class="sidebar-footnote">HECHO CON CALMA, SERVIDO CON AMOR.</p>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div class="breadcrumb">Restaurante <span>/</span> <strong id="currentSection">Resumen</strong></div>
+                <div class="topbar-actions"><span class="today-label" id="todayLabel"></span><button class="avatar" type="button" aria-label="Perfil del administrador">JD</button></div>
+            </header>
+
+            <section class="view active" id="view-resumen">
+                <div class="welcome-row">
+                    <div><p class="eyebrow">PANEL DE CONTROL <span></span></p><h1>Hola, equipo<span class="heading-period">.</span></h1><p class="page-intro">Esto es lo que está pasando en tu cocina hoy.</p></div>
+                    <button class="button button-dark" data-go="pedidos" type="button"><span>＋</span> Crear pedido</button>
                 </div>
-                <aside class="summary-panel">
-                    <div class="summary-label"><span class="mini-dot"></span> Tu selección</div>
-                    <div class="food-item"><div class="food-emoji">🍔</div><div><strong>Hamburguesa Ritmo</strong><span>Doble carne · Cheddar</span></div><b>€ 12.50</b></div>
-                    <div class="food-item"><div class="food-emoji">🍟</div><div><strong>Patatas crujientes</strong><span>Con salsa de la casa</span></div><b>€ 4.50</b></div>
-                    <div class="food-item"><div class="food-emoji">🥤</div><div><strong>Limonada fresca</strong><span>Con hierbabuena</span></div><b>€ 3.00</b></div>
-                    <div class="summary-total"><span>Total pagado</span><strong>€ 20.00</strong></div>
-                    <div class="delivery-note"><span>⌖</span><div><strong>Entregar en</strong><p>Calle del Sol, 24 · 2º B</p></div></div>
-                </aside>
+                <div class="stats-grid">
+                    <article class="stat-card"><span class="stat-icon lime">▤</span><span class="stat-label">Pedidos de hoy</span><strong id="statOrders">0</strong><small>Pedidos registrados</small></article>
+                    <article class="stat-card"><span class="stat-icon peach">◷</span><span class="stat-label">Pendientes</span><strong id="statPending">0</strong><small>Esperando en cocina</small></article>
+                    <article class="stat-card"><span class="stat-icon green">☷</span><span class="stat-label">Platos disponibles</span><strong id="statMenu">0</strong><small>En el menú ahora</small></article>
+                    <article class="stat-card"><span class="stat-icon lilac">▦</span><span class="stat-label">Categorías</span><strong id="statCategories">0</strong><small>Tipos de platos</small></article>
+                </div>
+                <div class="content-grid">
+                    <section class="card recent-card">
+                        <div class="section-heading"><div><p class="eyebrow">EN TIEMPO REAL</p><h2>Pedidos recientes</h2></div><button class="text-button" data-go="pedidos" type="button">Ver todos <span>↗</span></button></div>
+                        <div class="table-wrap"><table><thead><tr><th>PEDIDO</th><th>CLIENTE</th><th>HORA</th><th>ESTADO</th><th>TOTAL</th></tr></thead><tbody id="recentOrders"></tbody></table></div>
+                        <div class="empty-state compact-empty" id="recentEmpty" hidden><span>▤</span><strong>Aún no hay pedidos</strong><p>Cuando se cree un pedido, lo verás aquí.</p></div>
+                    </section>
+                    <section class="card popular-card">
+                        <div class="section-heading"><div><p class="eyebrow">TU CARTA</p><h2>Menú destacado</h2></div><button class="text-button" data-go="menu" type="button">Gestionar <span>↗</span></button></div>
+                        <div id="featuredMenu" class="featured-menu"></div>
+                        <div class="empty-state compact-empty" id="featuredEmpty" hidden><span>☷</span><strong>Tu menú está vacío</strong><p>Añade platos para verlos aquí.</p></div>
+                    </section>
+                </div>
             </section>
+
+            <section class="view" id="view-categorias">
+                <div class="page-heading"><div><p class="eyebrow">ORGANIZA TU CARTA <span></span></p><h1>Categorías<span class="heading-period">.</span></h1><p class="page-intro">Agrupa tus platos para que cada cosa encuentre su lugar.</p></div><button class="button button-dark" id="addCategoryButton" type="button"><span>＋</span> Nueva categoría</button></div>
+                <div class="category-grid" id="categoryGrid"></div>
+                <div class="empty-state page-empty" id="categoryEmpty" hidden><span>▦</span><strong>Sin categorías todavía</strong><p>Crea categorías como pizzas, hamburguesas o pastas.</p></div>
+            </section>
+
+            <section class="view" id="view-menu">
+                <div class="page-heading"><div><p class="eyebrow">TODO LO QUE COCINAS <span></span></p><h1>Tu menú<span class="heading-period">.</span></h1><p class="page-intro">Crea platos, actualiza precios y controla su disponibilidad.</p></div><button class="button button-dark" id="addMenuButton" type="button"><span>＋</span> Añadir plato</button></div>
+                <div class="toolbar"><div class="search-wrap"><span>⌕</span><input id="menuSearch" type="search" placeholder="Buscar un plato..." aria-label="Buscar platos"></div><select id="menuCategoryFilter" aria-label="Filtrar por categoría"><option value="">Todas las categorías</option></select><select id="menuAvailabilityFilter" aria-label="Filtrar por disponibilidad"><option value="">Todos los estados</option><option value="true">Disponibles</option><option value="false">Desactivados</option></select></div>
+                <section class="card table-card"><div class="table-wrap"><table><thead><tr><th>PLATO</th><th>CATEGORÍA</th><th>PRECIO</th><th>ESTADO</th><th class="actions-heading">ACCIONES</th></tr></thead><tbody id="menuTable"></tbody></table></div><div class="empty-state compact-empty" id="menuEmpty" hidden><span>☷</span><strong>No hay platos para mostrar</strong><p>Añade un plato nuevo o cambia los filtros.</p></div></section>
+            </section>
+
+            <section class="view" id="view-pedidos">
+                <div class="page-heading"><div><p class="eyebrow">DE LA MESA A LA COCINA <span></span></p><h1>Pedidos<span class="heading-period">.</span></h1><p class="page-intro">Crea pedidos y mantén a todo el equipo al día.</p></div><button class="button button-dark" id="addOrderButton" type="button"><span>＋</span> Crear pedido</button></div>
+                <div class="order-summary-strip"><span><i></i> Cocina recibiendo pedidos</span><strong id="ordersSummary">0 pedidos</strong></div>
+                <section class="card table-card order-table-card"><div class="table-wrap"><table><thead><tr><th>PEDIDO</th><th>CLIENTE</th><th>DETALLE</th><th>FECHA</th><th>ESTADO</th><th>TOTAL</th><th></th></tr></thead><tbody id="ordersTable"></tbody></table></div><div class="empty-state compact-empty" id="ordersEmpty" hidden><span>▤</span><strong>Todo tranquilo por aquí</strong><p>Crea un pedido para enviarlo a la cocina.</p><button class="button button-dark" data-action="new-order" type="button">＋ Crear pedido</button></div></section>
+            </section>
+            <footer><span>RITMO / COCINA QUE LLEGA A TIEMPO</span><span>Gestión del restaurante</span></footer>
         </main>
-        <footer><span>ritmo / cocina que llega a tiempo</span><span>Simulación de demostración</span></footer>
     </div>
+
+    <dialog class="app-dialog" id="categoryDialog">
+        <form id="categoryForm"><div class="dialog-heading"><div><p class="eyebrow">ORGANIZA TU CARTA</p><h2 id="categoryDialogTitle">Nueva categoría</h2></div><button class="close-button" type="button" data-close aria-label="Cerrar">×</button></div><label for="categoryName">Nombre de la categoría</label><input id="categoryName" name="name" placeholder="Ej. Pizzas" required maxlength="40"><p class="form-error" id="categoryError" role="alert"></p><div class="dialog-actions"><button class="button button-light" type="button" data-close>Cancelar</button><button class="button button-dark" type="submit">Guardar categoría</button></div></form>
+    </dialog>
+    <dialog class="app-dialog" id="menuDialog">
+        <form id="menuForm"><div class="dialog-heading"><div><p class="eyebrow">TU CARTA, A TU MANERA</p><h2 id="menuDialogTitle">Añadir plato</h2></div><button class="close-button" type="button" data-close aria-label="Cerrar">×</button></div><label for="menuName">Nombre del plato</label><input id="menuName" name="name" placeholder="Ej. Pizza de la casa" required maxlength="70"><label for="menuDescription">Descripción <span class="optional">(opcional)</span></label><textarea id="menuDescription" name="description" placeholder="Ingredientes o detalles del plato..." rows="3" maxlength="180"></textarea><div class="form-row"><div><label for="menuCategory">Categoría</label><select id="menuCategory" name="categoryId" required></select></div><div><label for="menuPrice">Precio</label><div class="price-input"><span>€</span><input id="menuPrice" name="price" type="number" min="0.01" step="0.01" placeholder="0.00" required></div></div></div><p class="form-error" id="menuError" role="alert"></p><div class="dialog-actions"><button class="button button-light" type="button" data-close>Cancelar</button><button class="button button-dark" type="submit">Guardar plato</button></div></form>
+    </dialog>
+    <dialog class="app-dialog order-dialog" id="orderDialog">
+        <form id="orderForm"><div class="dialog-heading"><div><p class="eyebrow">UN NUEVO PEDIDO</p><h2>¿Qué preparamos?</h2></div><button class="close-button" type="button" data-close aria-label="Cerrar">×</button></div><label for="customerName">Nombre del cliente</label><input id="customerName" name="customer" placeholder="Ej. Alex García" required maxlength="70"><label>Elige los platos</label><div id="orderMenuOptions" class="order-menu-options"></div><p class="form-error" id="orderError" role="alert"></p><div class="order-total"><span>Total del pedido</span><strong id="orderTotal">€ 0,00</strong></div><div class="dialog-actions"><button class="button button-light" type="button" data-close>Cancelar</button><button class="button button-dark" type="submit">Crear pedido</button></div></form>
+    </dialog>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <script src="scripts.js"></script>
 </body>
 </html>
