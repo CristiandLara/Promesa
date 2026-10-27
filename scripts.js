@@ -25,7 +25,6 @@ const statusClass = {
 	'Cancelado': 'cancelled'
 };
 const categoryIcons = { pizzas: '🍕', hamburguesas: '🍔', pastas: '🍝' };
-const dishIcons = { pizzas: '🍕', hamburguesas: '🍔', pastas: '🍝' };
 const numberFormatter = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' });
 
 function loadCollection(key, fallback) {
@@ -51,6 +50,7 @@ let editingCategoryId = null;
 let editingMenuId = null;
 let toastTimeout;
 
+// Acceso al DOM y utilidades
 const $ = (selector, parent = document) => parent.querySelector(selector);
 const $$ = (selector, parent = document) => [...parent.querySelectorAll(selector)];
 const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (character) => ({
@@ -63,9 +63,44 @@ const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (character) => (
 const formatPrice = (price) => numberFormatter.format(price);
 const categoryName = (id) => categories.find((category) => category.id === id)?.name || 'Sin categoría';
 const categoryIcon = (name) => categoryIcons[name.trim().toLocaleLowerCase('es')] || '✳';
-const dishIcon = (dish) => dishIcons[categoryName(dish.categoryId).trim().toLocaleLowerCase('es')] || '🍽️';
+const dishIcon = (dish) => categoryIcons[categoryName(dish.categoryId).trim().toLocaleLowerCase('es')] || '🍽️';
 const makeId = (prefix) => `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
 
+// Eventos
+$$('.nav-link').forEach((button) => button.addEventListener('click', () => navigate(button.dataset.view)));
+$$('[data-go]').forEach((button) => button.addEventListener('click', () => navigate(button.dataset.go)));
+$('#addCategoryButton').addEventListener('click', () => openCategoryDialog());
+$('#addMenuButton').addEventListener('click', () => openMenuDialog());
+$('#addOrderButton').addEventListener('click', openOrderDialog);
+$('#categoryForm').addEventListener('submit', handleCategorySubmit);
+$('#menuForm').addEventListener('submit', handleMenuSubmit);
+$('#orderForm').addEventListener('submit', handleOrderSubmit);
+$('#menuSearch').addEventListener('input', renderMenu);
+$('#menuCategoryFilter').addEventListener('change', renderMenu);
+$('#menuAvailabilityFilter').addEventListener('change', renderMenu);
+$('#orderMenuOptions').addEventListener('change', updateOrderTotal);
+$('#orderMenuOptions').addEventListener('input', updateOrderTotal);
+$('#categoryGrid').addEventListener('click', handleActionClick);
+$('#menuTable').addEventListener('click', handleActionClick);
+$('#ordersTable').addEventListener('click', handleActionClick);
+$('#recentOrders').addEventListener('click', handleActionClick);
+$('#ordersEmpty').addEventListener('click', handleActionClick);
+$('#ordersTable').addEventListener('change', (event) => {
+	const select = event.target.closest('[data-action="update-status"]');
+	if (!select) return;
+	const order = orders.find((item) => item.id === select.dataset.id);
+	if (!order || !orderStatuses.includes(select.value)) return;
+	order.status = select.value;
+	saveData();
+	renderAll();
+	showToast(`Pedido #${order.number}: ${order.status.toLocaleLowerCase('es')}.`);
+});
+$$('[data-close]').forEach((button) => button.addEventListener('click', () => button.closest('dialog').close()));
+$$('.app-dialog').forEach((dialog) => dialog.addEventListener('click', (event) => {
+	if (event.target === dialog) dialog.close();
+}));
+
+// Funciones de la aplicación
 function saveData() {
 	localStorage.setItem(STORAGE_KEYS.categories, JSON.stringify(categories));
 	localStorage.setItem(STORAGE_KEYS.menu, JSON.stringify(menu));
@@ -392,38 +427,5 @@ function handleOrderSubmit(event) {
 	renderAll();
 	showToast('Pedido creado y enviado a cocina.');
 }
-
-$$('.nav-link').forEach((button) => button.addEventListener('click', () => navigate(button.dataset.view)));
-$$('[data-go]').forEach((button) => button.addEventListener('click', () => navigate(button.dataset.go)));
-$('#addCategoryButton').addEventListener('click', () => openCategoryDialog());
-$('#addMenuButton').addEventListener('click', () => openMenuDialog());
-$('#addOrderButton').addEventListener('click', openOrderDialog);
-$('#categoryForm').addEventListener('submit', handleCategorySubmit);
-$('#menuForm').addEventListener('submit', handleMenuSubmit);
-$('#orderForm').addEventListener('submit', handleOrderSubmit);
-$('#menuSearch').addEventListener('input', renderMenu);
-$('#menuCategoryFilter').addEventListener('change', renderMenu);
-$('#menuAvailabilityFilter').addEventListener('change', renderMenu);
-$('#orderMenuOptions').addEventListener('change', updateOrderTotal);
-$('#orderMenuOptions').addEventListener('input', updateOrderTotal);
-$('#categoryGrid').addEventListener('click', handleActionClick);
-$('#menuTable').addEventListener('click', handleActionClick);
-$('#ordersTable').addEventListener('click', handleActionClick);
-$('#recentOrders').addEventListener('click', handleActionClick);
-$('#ordersEmpty').addEventListener('click', handleActionClick);
-$('#ordersTable').addEventListener('change', (event) => {
-	const select = event.target.closest('[data-action="update-status"]');
-	if (!select) return;
-	const order = orders.find((item) => item.id === select.dataset.id);
-	if (!order || !orderStatuses.includes(select.value)) return;
-	order.status = select.value;
-	saveData();
-	renderAll();
-	showToast(`Pedido #${order.number}: ${order.status.toLocaleLowerCase('es')}.`);
-});
-$$('[data-close]').forEach((button) => button.addEventListener('click', () => button.closest('dialog').close()));
-$$('.app-dialog').forEach((dialog) => dialog.addEventListener('click', (event) => {
-	if (event.target === dialog) dialog.close();
-}));
 $('#todayLabel').textContent = new Date().toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' });
 renderAll();
